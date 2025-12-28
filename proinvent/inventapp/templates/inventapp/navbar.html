@@ -7,14 +7,23 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'add_item' %}">Add Items</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'add_item' %}active{% endif %}" {% if request.resolver_match.url_name == 'add_item' %}aria-current="page"{% endif %} href="{% url 'add_item' %}">Add Items</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'list_items' %}">List Items</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'list_items' %}active{% endif %}" {% if request.resolver_match.url_name == 'list_items' %}aria-current="page"{% endif %} href="{% url 'list_items' %}">List Items</a>
                 </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'logout' %}active{% endif %}" {% if request.resolver_match.url_name == 'logout' %}aria-current="page"{% endif %} href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'home' %}">Login</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
