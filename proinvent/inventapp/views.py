@@ -29,3 +29,4 @@ def update_item(request, item_id):
             form.save()
     else:
         form = ItemForm(instance=items)
+    return render(request, 'inventapp/update_item.html', {'form': form})
