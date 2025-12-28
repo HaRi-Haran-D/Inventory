@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from .forms import ItemForm
 from .models import Items
 
@@ -11,6 +12,8 @@ def add_item(request):
         form = ItemForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Record added successfully.")
+            return redirect('home')
     else:
         form = ItemForm()
     return render(request, 'inventapp/add_item.html', {'form': form})
@@ -18,7 +21,7 @@ def add_item(request):
 
 def list_items(request):
     items = Items.objects.all()
-    return render(request, 'inventapp/list_items.html', {'items': items})
+    return render(request, 'inventapp/list_items.html', {'item': items})
 
 
 def update_item(request, item_id):
@@ -30,3 +33,11 @@ def update_item(request, item_id):
     else:
         form = ItemForm(instance=items)
     return render(request, 'inventapp/update_item.html', {'form': form})
+
+def delete_item(request, item_id):
+    items = Items.objects.get(id=item_id)
+    if request.method == 'POST':
+        items.delete()
+        messages.success(request, "Record deleted successfully.")
+        return redirect('list_items')
+    return render(request, 'inventapp/list_items.html', {'item': Items.objects.all()})

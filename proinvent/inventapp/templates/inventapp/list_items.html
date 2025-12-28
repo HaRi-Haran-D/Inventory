@@ -3,7 +3,7 @@
 
 {% block content %}
 <section>
-    <div class="container pt-5">
+    <div class="container pt-3 w-75">
         <table class="table table-dark table-striped">
             <thead>
                 <tr>
@@ -11,17 +11,61 @@
                 <th scope="col">Product Code</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Quantity</th>
+                <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
+                {% if item %}
+                {% for items in item %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ items.product_code }}</td>
+                    <td>{{ items.product_name }}</td>
+                    <td>{{ items.quantity }}</td>
+                    <td>
+                        <a href="{% url 'update_item' items.id %}" class="btn btn-outline-success btn-sm">Update</a>
+                        <button class="btn btn-outline-danger btn-sm" data-id="{{items.id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+                    </td>
                 </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No items available.</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
+
+            <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this item?
+                </div>
+                <div class="modal-footer">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger">Confirm Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+<script>
+    const exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget
+        const itemId = button.getAttribute('data-id')
+        const modalForm = exampleModal.querySelector('form')
+        modalForm.action = `/delete_item/${itemId}/`
+    })
+</script>
 {% endblock %}
