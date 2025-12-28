@@ -30,9 +30,11 @@ def update_item(request, item_id):
         form = ItemForm(request.POST, instance=items)
         if form.is_valid():
             form.save()
+            messages.success(request, "Record updated successfully.")
+            return redirect('list_items')
     else:
         form = ItemForm(instance=items)
-    return render(request, 'inventapp/update_item.html', {'form': form})
+    return render(request, 'inventapp/update_item.html', {'form': form, 'item': items})
 
 def delete_item(request, item_id):
     items = Items.objects.get(id=item_id)
