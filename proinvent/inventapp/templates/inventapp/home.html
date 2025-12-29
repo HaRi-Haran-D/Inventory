@@ -11,11 +11,10 @@
         <title>Inventory | {% block title %}Home{% endblock %}</title>
     </head>
     <body>
-
             {% if not user.is_authenticated %}
                 <div class="d-flex flex-column justify-center align-items-center w-100 vh-100 mt-5">
                     <div class="card w-25 p-3 mt-5">
-                        <h1 class="text-center mb-4">Login</h1>
+                        <h1 class="text-center mb-4">Admin Login</h1>
                         <form action="{% url 'home' %}" method="post" class="w-100 text-center">
                             {% csrf_token %}
                             <div class="mb-3">
