@@ -11,8 +11,7 @@
         <title>Inventory | {% block title %}Home{% endblock %}</title>
     </head>
     <body>
-        {% include 'inventapp/navbar.html' %}
-        <section class="container-fluid w-100 pb-4 pt-4">
+
             {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-secondary alert-dismissible fade show" role="alert">
@@ -23,15 +22,15 @@
             {% endif %}
 
             {% if not user.is_authenticated %}
-                <div class="d-flex flex-column justify-center align-items-center w-100">
-                    <div class="card w-25 p-3">
+                <div class="d-flex flex-column justify-center align-items-center w-100 vh-100 mt-5">
+                    <div class="card w-25 p-3 mt-5">
                         <h1 class="text-center mb-4">Login</h1>
                         <form action="{% url 'home' %}" method="post" class="w-100 text-center">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <input type="text" name="username" class="form-control" placeholder="Username" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <input type="password" name="password" class="form-control" placeholder="Password" required>
                             </div>
                             <button type="submit" class="btn btn-secondary">Login</button>
@@ -39,6 +38,7 @@
                     </div>
                 </div>
             {% else %}
+                {% include 'inventapp/navbar.html' %}
                 {% block content %}
                 <article class="container-fluid">
                     <h3 class="pt-2">List Items</h3>
@@ -61,7 +61,7 @@
                 
                 {% endblock %}
             {% endif %}
-        </section>
+
 
     <!-- Optional JavaScript; choose one of the two! -->
     <!-- Option 1: Bootstrap Bundle with Popper -->
